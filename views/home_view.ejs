@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/css/home.css">
+    <title>ToDo-App</title>
+</head>
+<body>
+    <div id="container">
+        <div id="main-app">
+            <div id="head">
+                TODO APP
+            </div>
+                <!-- Form to input task from user -->
+            <form action="/create-todo" method="POST">
+                
+                <!-- 'Category' and 'Due Date' container of the form -->
+                <div class="font-class" id="cat-date-container">
+                    <!-- 'Category' container -->
+                    <div class="cat-date-margin" id="cat-container">
+                        <p>&nbsp;&nbsp;&nbsp;CATEGORY</p>
+                        <!-- Category Drop-down Menu -->
+                        <select name="category">
+                            <option value="" selected disabled hidden>Choose a category</option>
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="school">School</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <!-- 'Due Date' container -->
+                    <div class="cat-date-margin" id="date-container">
+                        <p>DUE DATE</p>
+                        <input type="date" name="date" placeholder="" required>
+                    </div>
+                </div>
+                <!-- 'Description' container of the form -->
+                <div class="font-class" id="description-container">
+                    <p>DESCRIPTION</p>
+                    <input id="form-description" type="text" name="description" placeholder="What do you need to do?" required>
+                </div>
+
+
+                <!-- 'Add' & 'Delete' Button Container of the form -->
+                <div id="button-container">
+                    <!-- Add Task Button -->
+                    <div>
+                        <button type="submit" class="add-button">
+                            <i class="fa fa-plus" aria-hidden="true"></i> 
+                            &nbsp; ADD TASK
+                        </button>
+                    </div>
+                    &nbsp;
+                    <!-- Delete Tasks Button -->
+                    <div>
+                        <button type="submit" class="delete-button" form="delete1">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            DELETE TASKS
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Div containing all the tasks present in the database -->
+        <div class="show">
+
+            <!-- Form to 'delete' task(s) from the database -->
+            <form id="delete1" action="/delete-todo" method="POST" >
+
+                <!-- Fetching data from the database -->
+                <%  for(let i = todo_list.length - 1; i >= 0; i--) { %>
+                    <div id="task">
+                        <!-- CHECK BOX, DESCRIPTION AND CATEGORY INFORMATION OF THE TASK SHOW HERE  -->
+                        <div id="check-box">
+                            <input type="checkbox" name=task value="<%= todo_list[i]._id %>">
+                        </div>
+                        <!-- Each task of the todo list -->
+                        <div id="desc-date-container">
+                            <span id="task-description">
+                                <%= todo_list[i].description %>
+                            </span>
+                            <br>
+                            <span id="task-date">
+                                <i class="far fa-calendar-alt" aria-hidden="true"></i>
+                                &nbsp;
+                                <%= todo_list[i].date  %>
+                            </span>
+                        </div>
+                        <div id="task-category"> 
+                            <%= todo_list[i].category  %>
+                        </div>
+                        <!-- Cross Icon to remove task from the list (database) -->
+                        <div id="remove-task-icon">
+                            <a href="/delete_todo_single/?id=<%= todo_list[i]._id %>">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        
+                    </div>
+                <% } %>
+
+            </form>
+
+        </div>
+
+    </div>
+    
+</body>
+</html>
